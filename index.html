@@ -1,769 +1,1027 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-mode="dark">
 <head>
   <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Heston Hamilton</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heston Hamilton | Developer, Builder, Notes</title>
+  <meta name="description"
+    content="Heston Hamilton is a software developer in Arizona building with AI agents, plus bird-detection hardware, a homelab, and a multiplayer word game.">
+  <meta name="keywords" content="Heston Hamilton, software developer, agentic AI, Birdscope, homelab, Arizona">
 
-  <!-- Favicons -->
   <link href="assets/img/favicon.ico" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <style>
+    /* ── Tokens ──────────────────────────────────────────── */
+    :root {
+      --sedona:    #D4522A;
+      --teal:      #2A9D8F;
+      --purple:    #4B1C82;
+      --purple-bg: #120B1A;
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+      --bg:        #0E0C0B;
+      --surface:   #181411;
+      --surface-2: #231E1A;
+      --border:    #2D2520;
+      --text-1:    #F2EDE8;
+      --text-2:    #9A8E84;
+      --text-3:    #574E48;
 
-  <!-- =======================================================
-  * Template Name: SnapFolio
-  * Template URL: https://bootstrapmade.com/snapfolio-bootstrap-portfolio-template/
-  * Updated: Jun 13 2025 with Bootstrap v5.3.6
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+      --head: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+
+      --radius: 10px;
+      --max: 1200px;
+    }
+
+    [data-mode="light"] {
+      --bg:        #F5F0EB;
+      --surface:   #FFFFFF;
+      --surface-2: #EDE8E2;
+      --border:    #D4CCC5;
+      --text-1:    #1A1410;
+      --text-2:    #6B5F57;
+      --text-3:    #9A8E84;
+      --purple-bg: #EDE5F5;
+    }
+
+    /* ── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.6;
+      transition: background .2s, color .2s;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    svg { display: block; }
+
+    /* ── Layout ──────────────────────────────────────────── */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 2rem; }
+    .section { padding: 5rem 0; border-top: 1px solid var(--border); }
+
+    /* ── Header ──────────────────────────────────────────── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .brand {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      color: var(--text-1);
+    }
+    .brand-mark {
+      background: var(--sedona);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      width: 26px; height: 26px;
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      letter-spacing: .03em;
+    }
+    .site-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: auto;
+      align-items: center;
+    }
+    .site-nav a {
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: color .15s;
+    }
+    .site-nav a:hover { color: var(--text-1); }
+    .mode-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .3rem .65rem;
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      white-space: nowrap;
+    }
+    .mode-btn:hover { color: var(--text-1); border-color: var(--text-2); }
+    .mode-btn svg { width: 14px; height: 14px; }
+
+    /* Mobile hamburger (shown only at narrow widths) */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .25rem .35rem;
+      color: var(--text-2);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: color .15s, border-color .15s;
+    }
+    .nav-toggle:hover { color: var(--text-1); border-color: var(--text-2); }
+    .nav-toggle svg { width: 22px; height: 22px; }
+    .nav-toggle .icon-close { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-open { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+    /* ── Hero ────────────────────────────────────────────── */
+    .hero {
+      padding: 5rem 0 4rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-panel { order: -1; }
+    }
+
+    .hero-kicker {
+      font-family: var(--head);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--sedona);
+      margin-bottom: .75rem;
+    }
+    .hero h1 {
+      font-family: var(--head);
+      font-size: clamp(2.4rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--text-1);
+      margin-bottom: .9rem;
+    }
+    .hero-lede {
+      font-family: var(--head);
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-2);
+      max-width: 52ch;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+    .hero-body {
+      font-size: .95rem;
+      color: var(--text-2);
+      max-width: 58ch;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-family: var(--head);
+      font-size: .84rem;
+      font-weight: 600;
+      padding: .6rem 1.25rem;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      text-decoration: none;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn svg { width: 16px; height: 16px; }
+    .btn-primary   { background: var(--sedona); color: #fff; }
+    .btn-secondary { background: var(--surface-2); color: var(--text-1); border: 1px solid var(--border); }
+    .btn-ghost     { background: none; color: var(--teal); border: 1px solid var(--teal); }
+
+    /* Hero panel */
+    .hero-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .hero-portrait {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.125rem;
+    }
+    .hero-card-label {
+      font-family: var(--head);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: .3rem;
+    }
+    .hero-card p {
+      font-size: .82rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    /* ── Icon tile ───────────────────────────────────────── */
+    .icon-tile {
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+    }
+    .icon-tile svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.75;
+    }
+
+    /* ── Now ─────────────────────────────────────────────── */
+    .now-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 800px) { .now-grid { grid-template-columns: 1fr; } }
+
+    .now-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .now-card .icon-tile {
+      width: 38px; height: 38px;
+      margin-bottom: 1rem;
+    }
+    .now-card h3 {
+      font-family: var(--head);
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: .4rem;
+    }
+    .now-card p {
+      font-size: .84rem;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* ── Section heading ─────────────────────────────────── */
+    .section-kicker {
+      font-family: var(--head);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--sedona);
+      margin-bottom: .5rem;
+    }
+    .section-heading {
+      margin-bottom: 2.5rem;
+    }
+    .section-heading h2 {
+      font-family: var(--head);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: .5rem;
+    }
+    .section-heading p {
+      font-size: .9rem;
+      color: var(--text-2);
+      max-width: 60ch;
+      line-height: 1.7;
+    }
+
+    /* ── Projects ────────────────────────────────────────── */
+    .projects-featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 800px) { .projects-featured { grid-template-columns: 1fr; } }
+
+    .project-feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-feature-card:first-child {
+      border-left: 3px solid var(--sedona);
+    }
+    .project-feature-card:last-child {
+      border-left: 3px solid var(--purple);
+      background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--purple-bg) 40%, var(--surface)) 100%);
+    }
+    .project-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+    .project-img-placeholder {
+      width: 100%;
+      height: 180px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: .75rem;
+      color: var(--text-3);
+    }
+    .project-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .project-type {
+      font-family: var(--head);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    .project-body h3 {
+      font-family: var(--head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: .4rem;
+    }
+    .project-body p {
+      font-size: .84rem;
+      color: var(--text-2);
+      line-height: 1.65;
+      flex: 1;
+    }
+    .project-tags {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin: .9rem 0 1rem;
+    }
+    .project-tags li {
+      font-family: var(--head);
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      padding: .2rem .55rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+    }
+    .text-link {
+      font-family: var(--head);
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--teal);
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      transition: gap .15s;
+    }
+    .text-link:hover { gap: .5rem; }
+    .text-link-sedona { color: var(--sedona); }
+
+    /* Project grid — clean 2×2 of equal cards */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 600px) { .project-grid { grid-template-columns: 1fr; } }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .project-card .icon-tile {
+      width: 34px; height: 34px;
+      margin-bottom: .5rem;
+    }
+    .project-card h4 {
+      font-family: var(--head);
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .project-card p {
+      font-size: .82rem;
+      color: var(--text-2);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .project-card .text-link { margin-top: .6rem; align-self: flex-start; }
+
+    /* Homelab card — purple tint */
+    .card-homelab {
+      border-left: 3px solid var(--purple);
+      background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--purple-bg) 50%, var(--surface)) 100%);
+    }
+    /* Accent cards */
+    .card-teal { border-top: 2px solid var(--teal); }
+    .card-sedona { border-top: 2px solid var(--sedona); }
+
+    /* ── Writing ─────────────────────────────────────────── */
+    .writing-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: .82rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+    .writing-note strong { color: var(--text-1); font-weight: 600; }
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 800px) { .writing-grid { grid-template-columns: 1fr; } }
+
+    .writing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+    .writing-date {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--text-3);
+      margin-bottom: .5rem;
+    }
+    .writing-card h3 {
+      font-family: var(--head);
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: .4rem;
+      line-height: 1.35;
+    }
+    .writing-card p {
+      font-size: .81rem;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* ── Story ───────────────────────────────────────────── */
+    .story-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 800px) { .story-body { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .story-prose p {
+      font-size: .9rem;
+      color: var(--text-2);
+      line-height: 1.8;
+    }
+    .story-prose p + p { margin-top: .9rem; }
+
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 1rem;
+      padding-bottom: 1.5rem;
+      position: relative;
+    }
+    .timeline-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 24px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .timeline-year {
+      font-family: var(--mono);
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--sedona);
+      padding-top: .2rem;
+      text-align: right;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 22px;
+      top: 6px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 2px solid var(--border);
+    }
+    .timeline-item:first-child .timeline-dot { border-color: var(--sedona); background: var(--sedona); }
+    .timeline-content h4 {
+      font-family: var(--head);
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: .2rem;
+    }
+    .timeline-content p {
+      font-size: .8rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    /* ── Contact ─────────────────────────────────────────── */
+    .contact-section { background: var(--surface); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 700px) { .contact-inner { grid-template-columns: 1fr; } }
+    .contact-inner h2 {
+      font-family: var(--head);
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: .5rem;
+    }
+    .contact-inner p {
+      font-size: .88rem;
+      color: var(--text-2);
+      max-width: 52ch;
+      line-height: 1.7;
+    }
+    .contact-actions { display: flex; flex-direction: column; gap: .6rem; min-width: 160px; }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .footer-inner p {
+      font-size: .75rem;
+      color: var(--text-3);
+    }
+    .footer-inner a {
+      font-size: .75rem;
+      color: var(--text-2);
+    }
+
+    /* ── Utilities ───────────────────────────────────────── */
+    .color-sedona  { color: var(--sedona); }
+    .color-teal    { color: var(--teal); }
+    .color-purple  { color: #9B6BC4; } /* lightened for text use */
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    /* ── Skip link ───────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      z-index: 200;
+      background: var(--sedona);
+      color: #fff;
+      font-family: var(--head);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .5rem .9rem;
+      border-radius: 7px;
+      transition: top .15s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ── Small-screen polish ─────────────────────────────── */
+    @media (max-width: 640px) {
+      .container, .header-inner, .footer-inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .section { padding: 3.5rem 0; }
+
+      .nav-toggle { display: inline-flex; }
+      .mode-btn { margin-left: auto; }
+      .mode-btn #modeLabel { display: none; }
+
+      .site-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        margin-left: 0;
+        padding: .25rem 1.25rem .75rem;
+        background: color-mix(in srgb, var(--bg) 92%, transparent);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .site-nav.open { display: flex; }
+      .site-nav a {
+        padding: .85rem .25rem;
+        font-size: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .site-nav a:last-child { border-bottom: none; }
+    }
+  </style>
 </head>
 
-<body class="index-page">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <header id="header" class="header dark-background d-flex flex-column justify-content-center">
-    <i class="header-toggle d-xl-none bi bi-list"></i>
-
-    <div class="header-container d-flex flex-column align-items-start">
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
-          <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
-          <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
-          <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
-          <!--<li class="dropdown"><a href="#"><i class="bi bi-menu-button navicon"></i> <span>Dropdown</span> <i
-                class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
-                    class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li> -->
-          <li><a href="#about"><i class="bi bi-envelope navicon"></i> Contact</a></li>
-        </ul>
+  <!-- Header -->
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="Heston Hamilton, back to top">
+        <span class="brand-mark" aria-hidden="true">HH</span>
+        Heston Hamilton
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a href="#now">Now</a>
+        <a href="#projects">Projects</a>
+        <a href="#notes">Notes</a>
+        <a href="#story">Story</a>
+        <a href="#contact">Contact</a>
       </nav>
-
-      <div class="social-links text-center">
-        <a href="https://github.com/hestonhamilton" target="_blank" rel="noopener">
-          <i class="bi bi-github"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/hestonhamilton" target="_blank" rel="noopener">
-          <i class="bi bi-linkedin"></i>
-        </a>
-      </div>
-
+      <button class="mode-btn" id="modeToggle" aria-label="Toggle light and dark mode">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <span id="modeLabel">Light</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <svg class="icon-open" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="icon-close" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
     </div>
-
   </header>
 
-  <main class="main">
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero section">
-
-      <div class="background-elements">
-        <div class="bg-circle circle-1"></div>
-        <div class="bg-circle circle-2"></div>
-      </div>
-
-      <div class="hero-content">
-
-        <div class="container">
-          <div class="row align-items-center">
-
-            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
-              <div class="hero-text">
-                <h1>Heston<span class="accent-text"> Hamilton</span></h1>
-                <p class="lead">I'm a <span class="typed"
-                    data-typed-items="Computer Science Student, Python/C++ Developer, GenAI System Builder, Nature/Conservation Enthusiast"></span>
-                </p>
-                <p class="description">Aspiring AI/ML engineer with a background in systems, a passion for learning, and
-                  a portfolio of hands-on, real-world projects.</p>
-
-                <div class="hero-actions">
-                  <a href="#portfolio" class="btn btn-primary">View My Work</a>
-                  <a href="#about" class="btn btn-outline">Get In Touch</a>
-                </div>
-
-                <div class="social-links">
-                  <a href="https://github.com/hestonhamilton" target="_blank" rel="noopener">
-                    <i class="bi bi-github"></i>
-                  </a>
-                  <a href="https://www.linkedin.com/in/hestonhamilton" target="_blank" rel="noopener">
-                    <i class="bi bi-linkedin"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-              <div class="hero-visual">
-                <div class="profile-container">
-                  <div class="profile-background"></div>
-                  <img src="assets/img/profile/profile-2.jpg" alt="Heston Hamilton" class="profile-image">
-                  <div class="floating-elements">
-                    <div class="floating-icon icon-1"><i class="bi bi-palette"></i></div>
-                    <div class="floating-icon icon-2"><i class="bi bi-code-slash"></i></div>
-                    <div class="floating-icon icon-3"><i class="bi bi-lightbulb"></i></div>
-                    <div class="floating-icon icon-4"><i class="bi bi-graph-up"></i></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-    </section><!-- /Hero Section -->
-
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row">
-          <div class="col-lg-5" data-aos="zoom-in" data-aos-delay="200">
-            <div class="profile-card">
-              <div class="profile-header">
-                <div class="profile-image">
-                  <img src="assets/img/profile/profile-3.jpg" alt="Profile Image" class="img-fluid">
-                </div>
-                <div class="profile-badge">
-                  <i class="bi bi-check-circle-fill"></i>
-                </div>
-              </div>
-
-              <div class="profile-content">
-                <h3>Heston Hamilton</h3>
-                <p class="focus">Computer Science Student &amp; Developer</p>
-
-                <div class="contact-links">
-                  <a href="mailto:hestonshamilton@gmail.com" class="contact-item">
-                    <i class="bi bi-envelope"></i>
-                    hestonshamilton@gmail.com
-                  </a>
-                  <a href="#" class="contact-item">
-                    <i class="bi bi-geo-alt"></i>
-                    Tempe, Arizona
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-7" data-aos="fade-left" data-aos-delay="300">
-            <div class="about-content">
-              <div class="section-header">
-                <span class="badge-text">Get to Know Me</span>
-                <h2>Driven to Build Real-World AI & Machine Learning Solutions</h2>
-              </div>
-
-              <div class="description">
-                <p>I'm a Computer Science student with a professional background in infrastructure, DevOps, and
-                  high-stakes operations, now fully focused on building a career in AI and machine learning. I bring a
-                  deep understanding of distributed systems, Linux environments, and data pipelines to my evolving work
-                  in intelligent systems and model-driven applications.</p>
-                <p>My recent projects center on AI/ML prototyping, from classical models to transformer-based pipelines,
-                  with the goal of bridging the gap between academic models and production-ready tools. I’m especially
-                  excited about intelligent agents, LLMs, and applying machine learning to hard, unsolved problems.</p>
-                <p>With a strong foundation in Python and C++, I’m adept at building scalable, efficient systems that
-                  leverage the latest advancements in AI. I thrive on challenges and am passionate about creating
-                  solutions that make a real impact.</p>
-              </div>
-
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <div class="stat-number">10+</div>
-                  <div class="stat-label">Projects Completed</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number">7+</div>
-                  <div class="stat-label">Years Experience</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number">100%</div>
-                  <div class="stat-label">Commitment to Learning</div>
-                </div>
-              </div>
-
-              <div class="details-grid">
-                <div class="detail-row">
-                  <div class="detail-item">
-                    <span class="detail-label">Specialization</span>
-                    <span class="detail-value">AI/ML Prototyping · Python · Systems Engineering</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Experience Level</span>
-                    <span class="detail-value">Engineer, Transitioning to AI/ML</span>
-                  </div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-item">
-                    <span class="detail-label">Education</span>
-                    <span class="detail-value">B.S. Computer Science (ASU, 2026)</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Languages</span>
-                    <span class="detail-value">English, 700+ day Japanese Duolingo streak</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="cta-section">
-                <a href="assets/Heston%20Hamilton%20Resume.pdf" class="btn btn-primary" download>
-                  <i class="bi bi-download"></i>
-                  Download Resume
-                </a>
-                <a href="#" class="btn btn-outline">
-                  <i class="bi bi-chat-dots"></i>
-                  Let's Talk
-                </a>
-              </div>
-            </div>
+  <main id="main">
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <div class="container">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="hero-kicker">Software Developer · Builder · Arizona</p>
+          <h1>Heston Hamilton</h1>
+          <p class="hero-lede">I'm a software developer in Arizona. I build with AI agents every day, and I think they're changing how software gets made as deeply as the internet did.</p>
+          <p class="hero-body">My background is in infrastructure and systems. I completed my CS degree at ASU in 2026. I also build bird detection hardware, run a homelab, and have a multiplayer word game in the works.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">See projects</a>
+            <a class="btn btn-secondary" href="#story">My background</a>
+            <a class="btn btn-ghost" href="#contact">Get in touch</a>
           </div>
         </div>
 
+        <aside class="hero-panel">
+          <img class="hero-portrait" src="assets/img/profile/profile-2.jpg" alt="Heston Hamilton">
+          <div class="hero-card">
+            <p class="hero-card-label">Current focus</p>
+            <p>AI-native development workflows, Birdscope, and Silly Snippets, a multiplayer game I'm building.</p>
+          </div>
+        </aside>
       </div>
+    </div>
 
-    </section><!-- /About Section -->
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Skills</h2>
-        <p>Technical foundation built across DevOps, systems engineering, and a growing specialization in applied AI/ML.
-        </p>
-      </div>
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row">
-
-          <!-- Column 1: AI/ML & Data -->
-          <div class="col-lg-4">
-            <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
-              <h3>AI / ML & Data</h3>
-              <div class="skills-animation">
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>Python</h4>
-                    <span class="skill-percentage">Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"></div>
-                  </div>
-                  <div class="skill-tooltip">AI scripting, Flask apps, data pipelines, automation tools</div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>PyTorch / TensorFlow</h4>
-                    <span class="skill-percentage">Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Building and training neural networks and image classifiers</div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>Hugging Face / LangChain</h4>
-                    <span class="skill-percentage">Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Fine-tuning LLMs, prompt engineering, retrieval-augmented generation</div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 2: Systems & Tooling -->
-          <div class="col-lg-4">
-            <div class="skills-category" data-aos="fade-up" data-aos-delay="300">
-              <h3>Systems & Tooling</h3>
-              <div class="skills-animation">
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>Linux / Networking</h4>
-                    <span class="skill-percentage">Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%;"></div>
-                  </div>
-                  <div class="skill-tooltip">System administration, NGINX/Apache, DNS, firewall config</div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>Docker & Bash</h4>
-                    <span class="skill-percentage">Proficient</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Containerization of AI apps, scripting automation, server orchestration
-                  </div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>SQL & Data Access</h4>
-                    <span class="skill-percentage">Intermediate</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 70%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Schema design, complex queries, and analytics pipelines</div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 3: Learning & Soft Skills -->
-          <div class="col-lg-4">
-            <div class="skills-category" data-aos="fade-up" data-aos-delay="400">
-              <h3>Learning & Soft Skills</h3>
-              <div class="skills-animation">
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>LLM Agents & Multimodal AI</h4>
-                    <span class="skill-percentage">In Progress</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Exploring OpenAI tools, agent frameworks, and multimodal interfaces</div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>Cloud AI (AWS/GCP)</h4>
-                    <span class="skill-percentage">Learning</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Familiarizing with Bedrock, Model Garden, deployment options</div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4>Communication & Self-Motivation</h4>
-                    <span class="skill-percentage">High</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 95%;"></div>
-                  </div>
-                  <div class="skill-tooltip">Known for clarity, independence, and continuous improvement</div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
+    <!-- ── Now ──────────────────────────────────────────── -->
+    <section class="section" id="now">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Now</p>
+          <h2>What I'm paying attention to</h2>
         </div>
-      </div>
-
-    </section><!-- /Skills Section -->
-
-
-
-    <!-- Resume Section -->
-    <section id="resume" class="resume section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Resume</h2>
-        <p>Engineer with 7+ years of experience in technical operations, DevOps, and distributed systems — now focused
-          on applied AI/ML and intelligent agent systems. Currently completing a B.S. in Computer Science with a deep
-          dive into model prototyping, LLM pipelines, and data-driven engineering.</p>
-      </div>
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4">
-
-          <!-- Left Column -->
-          <div class="col-lg-4">
-            <div class="resume-side" data-aos="fade-right" data-aos-delay="100">
-
-              <div class="profile-img mb-4">
-                <img src="assets/img/profile/profile-2.jpg" alt="Profile" class="img-fluid rounded">
-              </div>
-
-              <h3>Professional Summary</h3>
-              <p>Versatile technologist with a strong foundation in Python, Bash, Linux, and performance engineering.
-                Known for shipping stable systems under pressure and now applying that discipline to AI/ML systems, from
-                classical models to transformer pipelines and inference workflows. Passionate about LLMs, intelligent
-                agents, and turning data into solutions.</p>
-
-              <h3 class="mt-4">Contact Information</h3>
-              <ul class="contact-info list-unstyled">
-                <li><i class="bi bi-geo-alt"></i> Tempe, Arizona</li>
-                <!--<li><i class="bi bi-envelope"></i>#</li>-->
-                <!--<li><i class="bi bi-phone"></i>#</li>-->
-                <li><i class="bi bi-linkedin"></i> <a href="https://linkedin.com/in/hestonhamilton"
-                    target="_blank">linkedin.com/in/hestonhamilton</a></li>
-                <li><i class="bi bi-github"></i> <a href="https://github.com/hestonhamilton"
-                    target="_blank">github.com/hestonhamilton</a></li>
-              </ul>
-
-              <div class="skills-animation mt-4">
-                <h3>Technical Skills</h3>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between">
-                    <span>Python / PyTorch / TensorFlow</span>
-                    <span>Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" style="width: 80%;"></div>
-                  </div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between">
-                    <span>Linux / Networking / Bash</span>
-                    <span>Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" style="width: 80%;"></div>
-                  </div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between">
-                    <span>Docker / NGINX / CI/CD</span>
-                    <span>Proficient</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-primary" style="width: 65%;"></div>
-                  </div>
-                </div>
-
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between">
-                    <span>LLMs / LangChain / HuggingFace</span>
-                    <span>Advanced</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" style="width: 80%;"></div>
-                  </div>
-                </div>
-              </div>
-
-
+        <div class="now-grid">
+          <div class="now-card">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--sedona) 15%, var(--surface-2)); color:var(--sedona)">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
             </div>
+            <h3>Agentic AI</h3>
+            <p>Most of my programming time is spent orchestrating AI agents. I frame the work, judge what comes back, and push it where it needs to go. I think this is how software gets built from here on.</p>
           </div>
-
-          <!-- Right Column -->
-          <div class="col-lg-8 ps-4 ps-lg-5">
-
-            <!-- Experience -->
-            <div class="resume-section" data-aos="fade-up">
-              <h3><i class="bi bi-briefcase me-2"></i>Professional Experience</h3>
-
-              <div class="resume-item">
-                <h4>Client Operations Engineer</h4>
-                <h5>Nov 2021 – Jan 2025</h5>
-                <p class="company"><i class="bi bi-building"></i> Edgio, Scottsdale, AZ</p>
-                <ul>
-                  <li>Supported high-profile live events across global edge networks and real-time systems.</li>
-                  <li>Collaborated with SMEs to improve performance, caching logic, and content delivery efficiency.
-                  </li>
-                  <li>Led performance monitoring and Linux-based deployment debugging for 24/7 live services.</li>
-                </ul>
-              </div>
-
-              <div class="resume-item">
-                <h4>Production Control Analyst II</h4>
-                <h5>2019 – 2021</h5>
-                <p class="company"><i class="bi bi-building"></i> Early Warning Services, Scottsdale, AZ</p>
-                <ul>
-                  <li>Worked in batch control and operations monitoring for Zelle and payment systems.</li>
-                  <li>Learned to optimize and debug complex ETL logic under mission-critical conditions.</li>
-                </ul>
-              </div>
-
-              <div class="resume-item">
-                <h4>Web Advisor I–III</h4>
-                <h5>Nov 2017 – Nov 2019</h5>
-                <p class="company"><i class="bi bi-building"></i> Endurance International Group, Tempe, AZ</p>
-                <ul>
-                  <li>Troubleshot advanced issues in Linux hosting environments for thousands of clients.</li>
-                  <li>Authored internal and external documentation for support processes and tooling.</li>
-                  <li>Provided escalated support for enterprise accounts and trained junior support staff.</li>
-                </ul>
-              </div>
-
+          <div class="now-card">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--teal) 15%, var(--surface-2)); color:var(--teal)">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></svg>
             </div>
-
-            <!-- Education -->
-            <div class="resume-section" data-aos="fade-up" data-aos-delay="100">
-              <h3><i class="bi bi-mortarboard me-2"></i>Education</h3>
-
-              <div class="resume-item">
-                <h4>B.S. Computer Science</h4>
-                <h5>2024 – 2026 (Expected)</h5>
-                <p class="company"><i class="bi bi-building"></i> Arizona State University</p>
-                <p>Focused on algorithms, machine learning, and intelligent systems.</p>
-              </div>
-
-              <div class="resume-item">
-                <h4>Associate Coursework in Computer Science</h4>
-                <h5>2022 – 2024</h5>
-                <p class="company"><i class="bi bi-building"></i> Maricopa Community Colleges</p>
-                <p>Completed with 4.0 GPA. Transitioned from systems engineer to full-time CS student.</p>
-              </div>
+            <h3>Nature-sensing systems</h3>
+            <p>I build systems that watch and listen to the natural world in order to pay closer attention to the world around me.</p>
+          </div>
+          <div class="now-card">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--purple) 22%, var(--surface-2)); color:#9B6BC4">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
             </div>
-
+            <h3>Homelab</h3>
+            <p>A small server rack hosting all of my experiments, where I practice new skill and technologies.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Portfolio</h2>
-        <p>A selection of hands-on AI/ML projects built with real-world data, practical tooling, and a focus on learning
-          through implementation. Each project explores a key concept from classical models to LLMs and agent-based
-          systems.</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-          <div class="row">
-            <div class="col-lg-3 filter-sidebar">
-              <div class="filters-wrapper" data-aos="fade-right" data-aos-delay="150">
-                <ul class="portfolio-filters isotope-filters">
-                  <li data-filter="*" class="filter-active">All Projects</li>
-                  <li data-filter=".filter-classical">Classical ML</li>
-                  <li data-filter=".filter-dl">Deep Learning</li>
-                  <li data-filter=".filter-llm">LLMs & Agents</li>
-                  <li data-filter=".filter-data">Data Engineering</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="col-lg-9">
-              <div class="row gy-4 portfolio-container isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-                <!-- Project 1: Birdbox -->
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-dl">
-                  <div class="portfolio-wrap">
-                    <img src="assets/img/portfolio/birdbox.png" class="img-fluid" alt="Birdbox Project" loading="lazy">
-                    <div class="portfolio-info">
-                      <div class="content">
-                        <span class="category">Deep Learning</span>
-                        <h4>Birdbox</h4>
-                        <p class="small">Raspberry Pi-based bird call identification using BirdNET Pi.</p>
-                        <div class="portfolio-links">
-                          <a href="https://github.com/hestonhamilton/birdbox" title="View on GitHub" target="_blank"><i
-                              class="bi bi-arrow-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Project 2: Birdscope -->
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-llm">
-                  <div class="portfolio-wrap">
-                    <img src="assets/img/portfolio/birdscope.png" class="img-fluid" alt="Birdscope Project"
-                      loading="lazy">
-                    <div class="portfolio-info">
-                      <div class="content">
-                        <span class="category">LLMs & Agents</span>
-                        <h4>Birdscope</h4>
-                        <p class="small">Pi + GPU system for real-time bird detection, MQTT, and classification
-                          pipeline.</p>
-                        <div class="portfolio-links">
-                          <a href="https://github.com/hestonhamilton/birdscope" title="View on GitHub"
-                            target="_blank"><i class="bi bi-arrow-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Project 3: Flask Deployer -->
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-classical">
-                  <div class="portfolio-wrap">
-                    <img src="assets/img/portfolio/flask-deployer.png" class="img-fluid" alt="Flask Deployer"
-                      loading="lazy">
-                    <div class="portfolio-info">
-                      <div class="content">
-                        <span class="category">Data Engineering</span>
-                        <h4>Flask Deployer</h4>
-                        <p class="small">Flask Deployer is a minimal CLI tool for quickly generating and deploying Flask applications.</p>
-                        <div class="portfolio-links">
-                          <a href="https://github.com/hestonhamilton/flask-deployer" title="View on GitHub"
-			    target="_blank"><i class="bi bi-arrow-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Placeholder Project 2 -->
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-data">
-                  <div class="portfolio-wrap">
-                    <img src="assets/img/portfolio/upcoming-project.png" class="img-fluid" alt="Upcoming Project"
-                      loading="lazy">
-                    <div class="portfolio-info">
-                      <div class="content">
-                        <span class="category">Data Engineering</span>
-                        <h4>[In Progress] Semantic Search QA Bot</h4>
-                        <p class="small">LLM-backed question answering system over document embeddings using LangChain +
-                          FAISS.</p>
-                        <div class="portfolio-links">
-                          <a href="#" title="Coming Soon"><i class="bi bi-hourglass-split"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- In-Progress: AI-Powered Resume Scanner -->
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-classical">
-                  <div class="portfolio-wrap">
-                    <img src="assets/img/portfolio/upcoming-project.png" class="img-fluid" alt="Resume Scanner Project"
-                      loading="lazy">
-                    <div class="portfolio-info">
-                      <div class="content">
-                        <span class="category">Classical ML</span>
-                        <h4>[In Progress] Resume Scanner</h4>
-                        <p class="small">NLP project that extracts structured fields from resumes using spaCy,
-                          scikit-learn, and Streamlit.</p>
-                        <div class="portfolio-links">
-                          <a href="https://www.kaggle.com/datasets/aryashah2k/resume-dataset" title="View Dataset"
-                            target="_blank"><i class="bi bi-link-45deg"></i></a>
-                          <a href="#" title="Coming Soon"><i class="bi bi-hourglass-split"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- In-Progress: BERT Job Title Classifier -->
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-llm">
-                  <div class="portfolio-wrap">
-                    <img src="assets/img/portfolio/upcoming-project.png" class="img-fluid" alt="BERT Job Classifier"
-                      loading="lazy">
-                    <div class="portfolio-info">
-                      <div class="content">
-                        <span class="category">LLMs & Agents</span>
-                        <h4>[In Progress] BERT Job Title Classifier</h4>
-                        <p class="small">Fine-tuning BERT to classify job titles from open listings using Hugging Face
-                          Transformers and PyTorch.</p>
-                        <div class="portfolio-links">
-                          <a href="https://www.kaggle.com/datasets/PromptCloudHQ/us-jobs-on-monstercom"
-                            title="View Dataset" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                          <a href="#" title="Coming Soon"><i class="bi bi-hourglass-split"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div><!-- End Portfolio Container -->
-            </div>
-
-          </div>
-
+    <!-- ── Projects ─────────────────────────────────────── -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Projects</p>
+          <h2>Things I'm building or have built</h2>
+          <p>Some are active, some are shipped, some are still experiments.</p>
         </div>
 
+        <!-- Featured row -->
+        <div class="projects-featured">
+          <div class="project-feature-card">
+            <img class="project-img" src="assets/img/portfolio/birdscope.png" alt="Birdscope">
+            <div class="project-body">
+              <p class="project-type color-teal">Active build</p>
+              <h3>Birdscope</h3>
+              <p>Pi + GPU bird detection pipeline. Computer vision, MQTT, real-time classification.</p>
+              <ul class="project-tags">
+                <li>Raspberry Pi</li><li>Computer vision</li><li>MQTT</li><li>Python</li>
+              </ul>
+              <a class="text-link" href="https://github.com/hestonhamilton/birdscope" target="_blank" rel="noopener">
+                GitHub
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="project-feature-card">
+            <div class="project-img-placeholder">
+              // in development
+            </div>
+            <div class="project-body">
+              <p class="project-type color-purple">In development</p>
+              <h3>Silly Snippets</h3>
+              <p>A real-time multiplayer word game I'm excited to release.</p>
+              <ul class="project-tags">
+                <li>Node.js</li><li>Socket.IO</li><li>Next.js</li><li>PostgreSQL</li><li>Redis</li>
+              </ul>
+              <span class="text-link" style="color:var(--text-3); cursor:default">Not yet public</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project grid — 2×2 -->
+        <div class="project-grid">
+          <div class="project-card card-homelab">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--purple) 22%, var(--surface-2)); color:#9B6BC4">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+            </div>
+            <p class="project-type" style="color:#9B6BC4;">Homelab</p>
+            <h4>Always something running</h4>
+            <p>Everything from Raspberry Pis to enterprise servers, where I prototype all of my ideas.</p>
+          </div>
+
+          <div class="project-card card-teal">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--teal) 15%, var(--surface-2)); color:var(--teal)">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            </div>
+            <p class="project-type color-teal">AI tooling</p>
+            <h4>mcp-shell-aliases</h4>
+            <p>An MCP server that exposes your shell aliases as safe, discoverable tools to AI systems. Built for Gemini CLI.</p>
+            <a class="text-link" href="https://github.com/hestonhamilton/mcp-shell-aliases" target="_blank" rel="noopener">
+              GitHub
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+
+          <div class="project-card card-sedona">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--sedona) 15%, var(--surface-2)); color:var(--sedona)">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>
+            </div>
+            <p class="project-type color-sedona">Agent work</p>
+            <h4>LeetCode Agent</h4>
+            <p>A CLI agent that uses an LLM to autonomously fetch and solve the daily LeetCode problem, including submission. An early experiment in what fully autonomous coding agents can do.</p>
+            <a class="text-link" href="https://github.com/hestonhamilton/leetcode-agent" target="_blank" rel="noopener">
+              GitHub
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+
+          <div class="project-card card-teal">
+            <div class="icon-tile" style="background:color-mix(in srgb, var(--teal) 15%, var(--surface-2)); color:var(--teal)">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+            </div>
+            <p class="project-type color-teal">Field tool</p>
+            <h4>Birdbox</h4>
+            <p>Raspberry Pi bird call identification using BirdNET Pi, built to be deployed and run in the real world for years.</p>
+            <a class="text-link" href="https://github.com/hestonhamilton/birdbox" target="_blank" rel="noopener">
+              GitHub
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+        </div>
       </div>
+    </section>
 
-    </section><!-- /Portfolio Section -->
+    <!-- ── Writing ───────────────────────────────────────── -->
+    <section class="section" id="notes">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Notes</p>
+          <h2>Notes from inside the work</h2>
+          <p>I write about what I'm learning: AI-native development, building with hardware, and the natural world.</p>
+        </div>
+        <div class="writing-note">
+          <strong>In the queue.</strong> These haven't been published yet, but check back soon!
+        </div>
+        <div class="writing-grid">
+          <div class="writing-card">
+            <p class="writing-date">Draft queue</p>
+            <h3>What it actually means to stop writing code</h3>
+            <p>A look at working one layer above the code. What changes, what doesn't, and what I still have to do that no agent can.</p>
+          </div>
+          <div class="writing-card">
+            <p class="writing-date">Draft queue</p>
+            <h3>Bird projects</h3>
+            <p>What I've learned from cameras, microphones, and edge devices. The difference between a fun prototype and a tool that works outside.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- ── Story ─────────────────────────────────────────── -->
+    <section class="section" id="story">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Background</p>
+          <h2>A practical path into software</h2>
+        </div>
+        <div class="story-body">
+          <div class="story-prose">
+            <p>Before my degree, I spent years in production: web hosting infrastructure, payment systems, CDN and live streaming operations at scale. Those roles taught me how software behaves in the real world and what it means to own a system that real people depend on.</p>
+            <p>I completed my B.S. in Computer Science at Arizona State University in 2026. My formal education and operational experience reinforce each other in ways I notice every day.</p>
+            <p>Today I work at FVI as a full-stack developer, where AI agents are my primary development tool. I think this is the most significant shift in how software gets made since the internet itself.</p>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <span class="timeline-year">Now</span>
+              <div class="timeline-content">
+                <h4>Full-stack developer, FVI</h4>
+                <p>Building durable, maintainable web software.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <span class="timeline-year">2026</span>
+              <div class="timeline-content">
+                <h4>B.S. Computer Science, ASU</h4>
+                <p>Graduated from Arizona State University.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <span class="timeline-year">2021</span>
+              <div class="timeline-content">
+                <h4>Client Operations Engineer, Edgio</h4>
+                <p>CDN and live streaming operations across distributed infrastructure at scale.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <span class="timeline-year">2021</span>
+              <div class="timeline-content">
+                <h4>Web Security Analyst, Sitelock</h4>
+                <p>Malware remediation and automation tooling.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <span class="timeline-year">2019</span>
+              <div class="timeline-content">
+                <h4>Production Control Analyst, Early Warning Services</h4>
+                <p>Big data payment infrastructure operations.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <span class="timeline-year">2017</span>
+              <div class="timeline-content">
+                <h4>Web Advisor, Endurance International Group</h4>
+                <p>Linux hosting support, where I first learned to love the command line.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Contact ───────────────────────────────────────── -->
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="contact-inner">
+          <div>
+            <p class="section-kicker">Contact</p>
+            <h2>Say hello if this overlaps with what you care about.</h2>
+            <p>I'm especially glad to hear from people building AI-native tools, conservation technology, or anything with a real-world edge. Always open to interesting conversations and collaborations.</p>
+          </div>
+          <div class="contact-actions">
+            <a class="btn btn-primary" href="mailto:hestonshamilton@gmail.com">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Email me
+            </a>
+            <a class="btn btn-secondary" href="https://github.com/hestonhamilton" target="_blank" rel="noopener">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+              GitHub
+            </a>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/in/hestonhamilton" target="_blank" rel="noopener">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer id="footer" class="footer position-relative">
-
-    <div class="container">
-      <div class="copyright text-center ">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">iPortfolio</strong> <span>All Rights Reserved</span>
-        </p>
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 Heston Hamilton</p>
+      <a href="#top">Back to top ↑</a>
     </div>
-
   </footer>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+  <script>
+    document.getElementById('modeToggle').addEventListener('click', function() {
+      const html = document.documentElement;
+      const dark = html.getAttribute('data-mode') === 'dark';
+      html.setAttribute('data-mode', dark ? 'light' : 'dark');
+      document.getElementById('modeLabel').textContent = dark ? 'Dark' : 'Light';
+    });
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+    const navToggle = document.getElementById('navToggle');
+    const siteNav = document.getElementById('site-nav');
+    function closeNav() {
+      siteNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Open menu');
+    }
+    navToggle.addEventListener('click', function() {
+      const open = siteNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    siteNav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', closeNav);
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeNav();
+    });
+  </script>
 
 </body>
-
 </html>

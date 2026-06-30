@@ -8,7 +8,15 @@ __pycache__/
 
 # User files
 *.env
+
+# Private — never commit
+SOUL.md
+HANDOFF.md
 *.venv
+
+# Local scaffolding and session transcripts (keep local, don't deploy)
+design/
+2026-*-id-like-to-rework-my-website-which-is-what-this.txt
 
 # Distribution / packaging
 .Python
