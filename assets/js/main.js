@@ -1,8 +1,13 @@
     document.getElementById('modeToggle').addEventListener('click', function() {
       const html = document.documentElement;
+      html.classList.add('theme-anim');
       const dark = html.getAttribute('data-mode') === 'dark';
       html.setAttribute('data-mode', dark ? 'light' : 'dark');
       document.getElementById('modeLabel').textContent = dark ? 'Dark' : 'Light';
+      window.clearTimeout(html._themeTimer);
+      html._themeTimer = window.setTimeout(function() {
+        html.classList.remove('theme-anim');
+      }, 250);
     });
 
     const navToggle = document.getElementById('navToggle');
